@@ -1,0 +1,21 @@
+[
+  {"id":1,"episode":162,"title":"宮野志保登場「沈黙の15分」","volume":18,"flags":{"new_character":true,"black_org":true}},
+  {"id":2,"episode":345,"title":"黒の組織との接触「再会と別れ」","volume":34,"flags":{"new_character":false,"black_org":true}},
+  {"id":3,"episode":425,"title":"バーボン登場「ゼロの執行人」","volume":42,"flags":{"new_character":true,"black_org":true}},
+  {"id":4,"episode":470,"title":"ライ登場「安室透の正体」","volume":46,"flags":{"new_character":true,"black_org":true}},
+  {"id":5,"episode":490,"title":"黒の組織との全面対決「漆黒の追跡者」","volume":47,"flags":{"new_character":false,"black_org":true}},
+  {"id":6,"episode":510,"title":"灰原哀の過去「哀の秘密」","volume":49,"flags":{"new_character":false,"black_org":true}},
+  {"id":7,"episode":545,"title":"ベルモット登場「純黒の悪夢」","volume":52,"flags":{"new_character":true,"black_org":true}},
+  {"id":8,"episode":600,"title":"FBI登場「赤き殺意」","volume":57,"flags":{"new_character":true,"black_org":false}},
+  {"id":9,"episode":633,"title":"灰原哀の決断","volume":60,"flags":{"new_character":false,"black_org":true}},
+  {"id":10,"episode":701,"title":"ラム登場「緋色の弾丸」","volume":66,"flags":{"new_character":true,"black_org":true}},
+  {"id":11,"episode":779,"title":"安室透の正体「ゼロの日常」","volume":73,"flags":{"new_character":false,"black_org":true}},
+  {"id":12,"episode":804,"title":"赤井一家登場「眠れる探偵と眠れぬ探偵」","volume":75,"flags":{"new_character":true,"black_org":false}},
+  {"id":13,"episode":857,"title":"黒田管理官の正体「沈黙の15分」","volume":80,"flags":{"new_character":false,"black_org":true}},
+  {"id":14,"episode":901,"title":"メアリー・世良の過去「隻眼の真相」","volume":84,"flags":{"new_character":false,"black_org":true}},
+  {"id":15,"episode":927,"title":"コナンの正体が新一と確定「名前を呼ぶな！」","volume":86,"flags":{"new_character":false,"black_org":true}},
+  {"id":16,"episode":1000,"title":"鈴木園子・毛利蘭への告白フラグ","volume":92,"flags":{"new_character":false,"black_org":false}},
+  {"id":17,"episode":1039,"title":"ノックリスト登場「100万ドルの五稜星」","volume":96,"flags":{"new_character":true,"black_org":true}},
+  {"id":18,"episode":1076,"title":"ラムの正体に迫る「烏丸連耶の謎」","volume":99,"flags":{"new_character":false,"black_org":true}},
+  {"id":19,"episode":1103,"title":"赤井秀一の完全復活","volume":102,"flags":{"new_character":false,"black_org":true}}
+]
