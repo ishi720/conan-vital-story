@@ -8,12 +8,8 @@
         v-for="f in filterOptions"
         :key="f.key"
         :class="['filter-btn', activeFilter === f.key && `act-${f.key}`]"
-        @click="activeFilter = f.key as 'all' | 'yes'"
+        @click="activeFilter = f.key as 'all' | 'yes' | 'black_org' | 'new_character'"
       >{{ f.label }}</button>
-      <div class="search-wrap">
-        <span class="search-icon">🔍</span>
-        <input v-model="query" type="text" placeholder="タイトル検索..." />
-      </div>
     </div>
 
     <table>
@@ -73,14 +69,15 @@ interface Episode {
 
 const episodes = episodesRaw as Episode[]
 
-const activeFilter = ref<'all' | 'yes'>('all')
-const query = ref('')
+const activeFilter = ref<'all' | 'yes' | 'black_org' | 'new_character'>('all')
 const sortKey = ref<'episode' | 'volume'>('episode')
 const sortDir = ref(1)
 
 const filterOptions = [
-  { key: 'all', label: 'すべて' },
-  { key: 'yes', label: '進捗あり' },
+  { key: 'all',           label: 'すべて' },
+  { key: 'yes',           label: '進捗有' },
+  { key: 'black_org',     label: '黒の組織' },
+  { key: 'new_character', label: 'キャラ追加' },
 ]
 
 const hasProgress = (ep: Episode) => ep.progress
@@ -88,10 +85,8 @@ const hasProgress = (ep: Episode) => ep.progress
 const filtered = computed(() => {
   let list = episodes
   if (activeFilter.value === 'yes') list = list.filter(hasProgress)
-  if (query.value.trim()) {
-    const q = query.value.toLowerCase()
-    list = list.filter(e => e.title.toLowerCase().includes(q))
-  }
+  else if (activeFilter.value === 'black_org') list = list.filter(e => e.categories.includes('black_org'))
+  else if (activeFilter.value === 'new_character') list = list.filter(e => e.categories.includes('new_character'))
   return list
 })
 
@@ -148,27 +143,10 @@ function sortIcon(key: string) {
   cursor: pointer;
 }
 .filter-btn:hover { background: #f5f5f5; }
-.act-all { background: #f0f0f0; border-color: #aaa; color: #111; font-weight: 500; }
-.act-yes { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; font-weight: 500; }
-.search-wrap {
-  position: relative;
-  margin-left: auto;
-}
-.search-icon {
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-}
-.search-wrap input {
-  padding: 4px 8px 4px 26px;
-  font-size: 13px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  outline: none;
-  width: 180px;
-}
+.act-all           { background: #f0f0f0; border-color: #aaa;    color: #111;    font-weight: 500; }
+.act-yes           { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; font-weight: 500; }
+.act-black_org     { background: #fdecea; border-color: #ef9a9a; color: #c62828; font-weight: 500; }
+.act-new_character { background: #e3f2fd; border-color: #90caf9; color: #1565c0; font-weight: 500; }
 table {
   width: 100%;
   border-collapse: collapse;
