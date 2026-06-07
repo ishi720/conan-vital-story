@@ -19,5 +19,5 @@ npm run dev
 | episode | number | 話数 |
 | title | string | タイトル |
 | volume | number | 単行本巻数 |
-| flags.black_org | boolean | 黒の組織関連回 |
-| flags.new_character | boolean | 新キャラ登場回 |
+| progress | boolean | 進捗あり／なし |
+| categories | string[] | 進捗ありの場合のカテゴリ配列（`"black_org"`, `"new_character"` など）。空の場合は「その他」 |

@@ -40,13 +40,16 @@
           <td class="vol">第{{ ep.volume }}巻</td>
           <td>
             <span v-if="hasProgress(ep)" class="flag-yes">あり</span>
-            <span v-else class="flag-no">—</span>
+            <span v-else class="flag-no">なし</span>
           </td>
           <td>
             <div class="cats">
-              <span v-if="ep.flags.black_org" class="badge b-org">黒の組織</span>
-              <span v-if="ep.flags.new_character" class="badge b-char">キャラ追加</span>
-              <span v-if="!ep.flags.black_org && !ep.flags.new_character" class="no-cat">—</span>
+              <template v-if="ep.progress">
+                <span v-if="ep.categories.includes('black_org')" class="badge b-org">黒の組織</span>
+                <span v-if="ep.categories.includes('new_character')" class="badge b-char">キャラ追加</span>
+                <span v-if="ep.categories.length === 0" class="badge b-other">その他</span>
+              </template>
+              <span v-else class="no-cat">-</span>
             </div>
           </td>
         </tr>
@@ -65,7 +68,8 @@ interface Episode {
   episode: number
   title: string
   volume: number
-  flags: { new_character: boolean; black_org: boolean }
+  progress: boolean
+  categories: string[]
 }
 
 const episodes = episodesRaw as Episode[]
@@ -81,7 +85,7 @@ const filterOptions = [
   { key: 'no',  label: '進捗なし' },
 ]
 
-const hasProgress = (ep: Episode) => ep.flags.black_org || ep.flags.new_character
+const hasProgress = (ep: Episode) => ep.progress
 
 const filtered = computed(() => {
   let list = episodes
@@ -200,8 +204,9 @@ tr:hover td { background: #fafafa; }
 .flag-no  { font-size: 12px; color: #ccc; }
 .cats { display: flex; gap: 4px; flex-wrap: wrap; }
 .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; border: 1px solid; white-space: nowrap; }
-.b-org  { background: #fdecea; color: #c62828; border-color: #ef9a9a; }
-.b-char { background: #e3f2fd; color: #1565c0; border-color: #90caf9; }
+.b-org   { background: #fdecea; color: #c62828; border-color: #ef9a9a; }
+.b-char  { background: #e3f2fd; color: #1565c0; border-color: #90caf9; }
+.b-other { background: #f3f3f3; color: #777; border-color: #ccc; }
 .no-cat { font-size: 12px; color: #ccc; }
 .empty { text-align: center; padding: 3rem 0; color: #aaa; font-size: 13px; }
 </style>
