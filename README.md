@@ -15,7 +15,6 @@ npm run dev
 
 | フィールド | 型 | 説明 |
 |---|---|---|
-| id | number | 一意のID |
 | episode | number | 話数 |
 | title | string | タイトル |
 | volume | number | 単行本巻数 |

@@ -8,7 +8,7 @@
         v-for="f in filterOptions"
         :key="f.key"
         :class="['filter-btn', activeFilter === f.key && `act-${f.key}`]"
-        @click="activeFilter = f.key"
+        @click="activeFilter = f.key as 'all' | 'yes'"
       >{{ f.label }}</button>
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
@@ -34,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="ep in sorted" :key="ep.id">
+        <tr v-for="ep in sorted" :key="ep.episode">
           <td class="ep">{{ ep.episode }}</td>
           <td class="ttl">{{ ep.title }}</td>
           <td class="vol">第{{ ep.volume }}巻</td>
@@ -64,7 +64,6 @@
 import episodesRaw from '~/data/episodes.json'
 
 interface Episode {
-  id: number
   episode: number
   title: string
   volume: number
@@ -74,7 +73,7 @@ interface Episode {
 
 const episodes = episodesRaw as Episode[]
 
-const activeFilter = ref<'all' | 'yes' | 'no'>('all')
+const activeFilter = ref<'all' | 'yes'>('all')
 const query = ref('')
 const sortKey = ref<'episode' | 'volume'>('episode')
 const sortDir = ref(1)
@@ -82,7 +81,6 @@ const sortDir = ref(1)
 const filterOptions = [
   { key: 'all', label: 'すべて' },
   { key: 'yes', label: '進捗あり' },
-  { key: 'no',  label: '進捗なし' },
 ]
 
 const hasProgress = (ep: Episode) => ep.progress
@@ -90,7 +88,6 @@ const hasProgress = (ep: Episode) => ep.progress
 const filtered = computed(() => {
   let list = episodes
   if (activeFilter.value === 'yes') list = list.filter(hasProgress)
-  if (activeFilter.value === 'no')  list = list.filter(e => !hasProgress(e))
   if (query.value.trim()) {
     const q = query.value.toLowerCase()
     list = list.filter(e => e.title.toLowerCase().includes(q))
@@ -153,7 +150,6 @@ function sortIcon(key: string) {
 .filter-btn:hover { background: #f5f5f5; }
 .act-all { background: #f0f0f0; border-color: #aaa; color: #111; font-weight: 500; }
 .act-yes { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; font-weight: 500; }
-.act-no  { background: #f5f5f5; border-color: #bbb; color: #555; font-weight: 500; }
 .search-wrap {
   position: relative;
   margin-left: auto;
