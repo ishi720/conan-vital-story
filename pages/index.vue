@@ -14,7 +14,7 @@
 
     <table>
       <colgroup>
-        <col style="width:70px" />
+        <col style="width:220px" />
         <col />
         <col style="width:90px" />
         <col style="width:80px" />
@@ -22,23 +22,23 @@
       </colgroup>
       <thead>
         <tr>
-          <th @click="toggleSort('episode')">話数 {{ sortIcon('episode') }}</th>
-          <th>タイトル</th>
+          <th @click="toggleSort('episode')">エピソード {{ sortIcon('episode') }}</th>
+          <th>ファイル</th>
           <th @click="toggleSort('volume')">単行本 {{ sortIcon('volume') }}</th>
           <th>進捗</th>
           <th>カテゴリ</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="ep in sorted" :key="ep.episode">
-          <td class="ep">{{ ep.episode }}</td>
-          <td class="ttl">{{ ep.title }}</td>
-          <td class="vol">第{{ ep.volume }}巻</td>
-          <td>
+        <tr v-for="(ep, index) in sorted" :key="ep.id">
+          <td v-if="isFirstInGroup(index)" class="ep" :rowspan="groupSize(index)">{{ ep.title }}</td>
+          <td class="file">{{ ep.file }}</td>
+          <td v-if="isFirstInGroup(index)" class="vol" :rowspan="groupSize(index)">第{{ ep.volume }}巻</td>
+          <td v-if="isFirstInGroup(index)" :rowspan="groupSize(index)">
             <span v-if="hasProgress(ep)" class="flag-yes">あり</span>
             <span v-else class="flag-no">なし</span>
           </td>
-          <td>
+          <td v-if="isFirstInGroup(index)" :rowspan="groupSize(index)">
             <div class="cats">
               <template v-if="ep.progress">
                 <span v-if="ep.categories.includes('black_org')" class="badge b-org">黒の組織</span>
@@ -60,11 +60,13 @@
 import episodesRaw from '~/data/episodes.json'
 
 interface Episode {
+  id: number
   episode: number
   title: string
   volume: number
   progress: boolean
   categories: string[]
+  file: string
 }
 
 const episodes = episodesRaw as Episode[]
@@ -106,6 +108,18 @@ function toggleSort(key: 'episode' | 'volume') {
 function sortIcon(key: string) {
   if (sortKey.value !== key) return '↕'
   return sortDir.value > 0 ? '↑' : '↓'
+}
+
+function isFirstInGroup(index: number): boolean {
+  if (index === 0) return true
+  return sorted.value[index].episode !== sorted.value[index - 1].episode
+}
+
+function groupSize(index: number): number {
+  const ep = sorted.value[index].episode
+  let count = 0
+  for (let i = index; i < sorted.value.length && sorted.value[i].episode === ep; i++) count++
+  return count
 }
 </script>
 
@@ -171,8 +185,9 @@ td {
   vertical-align: middle;
 }
 tr:hover td { background: #fafafa; }
-.ep { font-weight: 600; color: #111; }
+.ep { font-weight: 600; color: #111; vertical-align: top; }
 .ttl { font-weight: 500; color: #111; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file { font-size: 12px; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vol { font-size: 12px; color: #777; }
 .flag-yes { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
 .flag-no  { font-size: 12px; color: #ccc; }
