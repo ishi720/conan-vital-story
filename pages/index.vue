@@ -15,30 +15,30 @@
     <table>
       <colgroup>
         <col style="width:220px" />
-        <col />
         <col style="width:90px" />
+        <col />
         <col style="width:80px" />
         <col style="width:180px" />
       </colgroup>
       <thead>
         <tr>
           <th @click="toggleSort('episode')">エピソード {{ sortIcon('episode') }}</th>
-          <th>ファイル</th>
           <th @click="toggleSort('volume')">単行本 {{ sortIcon('volume') }}</th>
+          <th>ファイル</th>
           <th>進捗</th>
           <th>カテゴリ</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(ep, index) in sorted" :key="ep.id">
-          <td v-if="isFirstInGroup(index)" class="ep" :rowspan="groupSize(index)">{{ ep.title }}</td>
+          <td v-if="isFirstInGroup(index)" class="ep" :rowspan="groupSize(index)"><span class="ep-num">{{ ep.episode }}</span>{{ ep.title }}</td>
+          <td class="vol">第{{ ep.volume }}巻</td>
           <td class="file">{{ ep.file }}</td>
-          <td v-if="isFirstInGroup(index)" class="vol" :rowspan="groupSize(index)">第{{ ep.volume }}巻</td>
-          <td v-if="isFirstInGroup(index)" :rowspan="groupSize(index)">
+          <td>
             <span v-if="hasProgress(ep)" class="flag-yes">あり</span>
             <span v-else class="flag-no">なし</span>
           </td>
-          <td v-if="isFirstInGroup(index)" :rowspan="groupSize(index)">
+          <td>
             <div class="cats">
               <template v-if="ep.progress">
                 <span v-if="ep.categories.includes('black_org')" class="badge b-org">黒の組織</span>
@@ -185,7 +185,8 @@ td {
   vertical-align: middle;
 }
 tr:hover td { background: #fafafa; }
-.ep { font-weight: 600; color: #111; vertical-align: top; }
+.ep { font-weight: 500; color: #111; vertical-align: top; }
+.ep-num { font-size: 11px; color: #aaa; margin-right: 6px; }
 .ttl { font-weight: 500; color: #111; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .file { font-size: 12px; color: #555; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .vol { font-size: 12px; color: #777; }
